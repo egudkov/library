@@ -14,6 +14,10 @@ app.get('/javascripts/main.js', function(req, res) {
     res.sendFile(__dirname + '/public/javascripts/main.js');
 });
 
+app.get('/stylesheets/style.css', function(req, res) {
+    res.sendFile(__dirname + '/public/stylesheets/style.css');
+});
+
 app.get('/blocks/booksRequestForm.html', function(req, res) {
     res.sendFile(__dirname + '/public/blocks/booksRequestForm.html');
 });

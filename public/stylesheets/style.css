@@ -1,8 +1,26 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
+}
+
+.nav {
+    margin: 20px;
+}
+
+#content {
+    padding: 20px;
+    margin: 20px;
+    border: solid 1px #000;
+}
+
+#content input, #content textarea {
+    padding: 8px;
+    margin: 8px;
+    border: solid 1px #ccc;
+    border-radius: 3px;
+    width: 300px;
 }
