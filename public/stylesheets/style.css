@@ -14,7 +14,6 @@ a {
 #content {
     padding: 20px;
     margin: 20px;
-    border: solid 1px #000;
 }
 
 #content input, #content textarea {

@@ -6,6 +6,12 @@ var app = express();
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(bodyParser.json());
 
+app.post('/getResource', function(req, res) {
+    console.log("Your request: " + req.body.toString());
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify({name: 'Evgeny', lastname: 'Gudkov'}));
+});
+
 app.get('/', function(req, res) {
     res.sendFile(__dirname + '/public/index.html');
 });
