@@ -28,6 +28,26 @@ app.get('/blocks/booksRequestForm.html', function(req, res) {
     res.sendFile(__dirname + '/public/blocks/booksRequestForm.html');
 });
 
+app.get('/blocks/home.html', function(req, res) {
+    res.sendFile(__dirname + '/public/blocks/home.html');
+});
+
+app.get('/blocks/news.html', function(req, res) {
+    res.sendFile(__dirname + '/public/blocks/news.html');
+});
+
+app.get('/blocks/catalog.html', function(req, res) {
+    res.sendFile(__dirname + '/public/blocks/catalog.html');
+});
+
+app.get('/blocks/contacts.html', function(req, res) {
+    res.sendFile(__dirname + '/public/blocks/contacts.html');
+});
+
+app.get('/blocks/about.html', function(req, res) {
+    res.sendFile(__dirname + '/public/blocks/about.html');
+});
+
 app.listen(3000, function () {
     console.log('Listening on port 3000...');
 });

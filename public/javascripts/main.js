@@ -31,6 +31,73 @@
                     alert("Something is broken");
                 }
             })
-        })
+        });
+        $("#home").click(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: "blocks/home.html",
+                dataType: "html",
+                success: function(data) {
+                    $("#navContent").html(data);
+                    history.pushState({}, "", "home.html");
+                },
+                error: function() {
+                    alert("Something is broken");
+                }
+            })
+        });
+        $("#news").click(function(event) {
+            event.preventDefault();
+            $.ajax({
+                url: "blocks/news.html",
+                dataType: "html",
+                success: function(data) {
+                    $("#navContent").html(data);
+                    history.pushState({}, "", "news.html");
+                },
+                error: function() {
+                    alert("Something is broken");
+                }
+            })
+        });
+        $("#catalog").click(function() {
+            $.ajax({
+                url: "blocks/catalog.html",
+                dataType: "html",
+                success: function(data) {
+                    $("#navContent").html(data);
+                    history.pushState({}, "", "catalog.html");
+                },
+                error: function() {
+                    alert("Something is broken");
+                }
+            })
+        });
+        $("#contacts").click(function() {
+            $.ajax({
+                url: "blocks/contacts.html",
+                dataType: "html",
+                success: function(data) {
+                    $("#navContent").html(data);
+                    history.pushState({}, "", "contacts.html");
+                },
+                error: function() {
+                    alert("Something is broken");
+                }
+            })
+        });
+        $("#about").click(function() {
+            $.ajax({
+                url: "blocks/about.html",
+                dataType: "html",
+                success: function(data) {
+                    $("#navContent").html(data);
+                    history.pushState({}, "", "about.html");
+                },
+                error: function() {
+                    alert("Something is broken");
+                }
+            })
+        });
     })
 })(jQuery);
