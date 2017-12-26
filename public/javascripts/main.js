@@ -32,28 +32,24 @@
                 }
             })
         });
-        $("#home").click(function(event) {
-            event.preventDefault();
+        $("#home").click(function() {
             $.ajax({
                 url: "blocks/home.html",
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
-                    history.pushState({}, "", "home.html");
                 },
                 error: function() {
                     alert("Something is broken");
                 }
             })
         });
-        $("#news").click(function(event) {
-            event.preventDefault();
+        $("#news").click(function() {
             $.ajax({
                 url: "blocks/news.html",
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
-                    history.pushState({}, "", "news.html");
                 },
                 error: function() {
                     alert("Something is broken");
@@ -66,7 +62,6 @@
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
-                    history.pushState({}, "", "catalog.html");
                 },
                 error: function() {
                     alert("Something is broken");
@@ -79,7 +74,6 @@
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
-                    history.pushState({}, "", "contacts.html");
                 },
                 error: function() {
                     alert("Something is broken");
@@ -92,7 +86,6 @@
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
-                    history.pushState({}, "", "about.html");
                 },
                 error: function() {
                     alert("Something is broken");
