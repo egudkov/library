@@ -32,57 +32,10 @@
                 }
             })
         });
-        $("#home").click(function() {
+        $(".nav a").click(function() {
+            var pageName = this.hash.substr(1);
             $.ajax({
-                url: "blocks/home.html",
-                dataType: "html",
-                success: function(data) {
-                    $("#navContent").html(data);
-                },
-                error: function() {
-                    alert("Something is broken");
-                }
-            })
-        });
-        $("#news").click(function() {
-            $.ajax({
-                url: "blocks/news.html",
-                dataType: "html",
-                success: function(data) {
-                    $("#navContent").html(data);
-                },
-                error: function() {
-                    alert("Something is broken");
-                }
-            })
-        });
-        $("#catalog").click(function() {
-            $.ajax({
-                url: "blocks/catalog.html",
-                dataType: "html",
-                success: function(data) {
-                    $("#navContent").html(data);
-                },
-                error: function() {
-                    alert("Something is broken");
-                }
-            })
-        });
-        $("#contacts").click(function() {
-            $.ajax({
-                url: "blocks/contacts.html",
-                dataType: "html",
-                success: function(data) {
-                    $("#navContent").html(data);
-                },
-                error: function() {
-                    alert("Something is broken");
-                }
-            })
-        });
-        $("#about").click(function() {
-            $.ajax({
-                url: "blocks/about.html",
+                url: "blocks/" + pageName + ".html",
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
