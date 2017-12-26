@@ -32,8 +32,18 @@
                 }
             })
         });
+
         $(".nav a").click(function() {
             var pageName = this.hash.substr(1);
+            var activeLink = $(".nav .active")[0];
+            if (activeLink.hash.substr(1) !== pageName) {
+                activeLink.removeAttribute("class");
+                this.setAttribute("class", "active");
+            }
+            getContent(pageName);
+        });
+
+        function getContent(pageName) {
             $.ajax({
                 url: "blocks/" + pageName + ".html",
                 dataType: "html",
@@ -43,7 +53,7 @@
                 error: function() {
                     alert("Something is broken");
                 }
-            })
-        });
+            });
+        }
     })
 })(jQuery);

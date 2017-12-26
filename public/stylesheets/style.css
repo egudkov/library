@@ -26,8 +26,12 @@ a {
     padding: 14px 16px;
 }
 
-.nav li a:hover {
+.nav li a:hover:not(.active) {
     background-color: #111;
+}
+
+.nav .active {
+    background-color: #4CAF50;
 }
 
 #content {
