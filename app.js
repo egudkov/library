@@ -48,6 +48,26 @@ app.get('/blocks/about.html', function(req, res) {
     res.sendFile(__dirname + '/public/blocks/about.html');
 });
 
+app.get('/home', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/news', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/catalog', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/contacts', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
+app.get('/about', function(req, res) {
+    res.sendFile(__dirname + '/public/index.html');
+});
+
 app.listen(3000, function () {
     console.log('Listening on port 3000...');
 });

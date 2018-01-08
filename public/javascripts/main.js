@@ -35,30 +35,30 @@
 
         $(".nav-menu").click(function(event) {
             event.preventDefault();
+            getContent($(this).attr("href"));
             setActiveTab($(this));
-            getContent($(this));
         });
 
         function setActiveTab(clickedTab) {
             var currentActiveTab = $(".nav").find(".active");
-            var clickedTabName = clickedTab.attr("href").substr(1);
-            var currentActiveTabName = currentActiveTab.attr("href").substr(1);
+            var clickedTabName = clickedTab.attr("href");
+            var currentActiveTabName = currentActiveTab.attr("href");
             if (clickedTabName !== currentActiveTabName) {
                 currentActiveTab.removeClass("active");
                 clickedTab.addClass("active");
             }
         }
 
-        function getContent(clickedTab) {
-            var clickedTabName = clickedTab.attr("href").substr(1);
+        function getContent(page) {
             $.ajax({
-                url: "blocks/" + clickedTabName + ".html",
+                url: "blocks" + page + ".html",
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
+                    history.pushState({}, "", page);
                 },
                 error: function() {
-                    alert("Something is broken");
+                    alert("Failed to get content from page " + page);
                 }
             });
         }
