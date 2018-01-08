@@ -33,19 +33,26 @@
             })
         });
 
-        $(".nav a").click(function() {
-            var pageName = this.hash.substr(1);
-            var activeLink = $(".nav .active")[0];
-            if (activeLink.hash.substr(1) !== pageName) {
-                activeLink.removeAttribute("class");
-                this.setAttribute("class", "active");
-            }
-            getContent(pageName);
+        $(".nav-menu").click(function(event) {
+            event.preventDefault();
+            setActiveTab($(this));
+            getContent($(this));
         });
 
-        function getContent(pageName) {
+        function setActiveTab(clickedTab) {
+            var currentActiveTab = $(".nav").find(".active");
+            var clickedTabName = clickedTab.attr("href").substr(1);
+            var currentActiveTabName = currentActiveTab.attr("href").substr(1);
+            if (clickedTabName !== currentActiveTabName) {
+                currentActiveTab.removeClass("active");
+                clickedTab.addClass("active");
+            }
+        }
+
+        function getContent(clickedTab) {
+            var clickedTabName = clickedTab.attr("href").substr(1);
             $.ajax({
-                url: "blocks/" + pageName + ".html",
+                url: "blocks/" + clickedTabName + ".html",
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
