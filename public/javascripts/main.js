@@ -35,11 +35,19 @@
 
         $(".nav-menu").click(function(event) {
             event.preventDefault();
-            getContent($(this).attr("href"));
-            setActiveTab($(this));
+            var page = $(this).attr("href");
+            getContent(page);
+            setActiveTab(page);
         });
 
-        function setActiveTab(clickedTab) {
+        getContent(location.pathname);
+        setActiveTab(location.pathname);
+
+        function setActiveTab(page) {
+            if (page === '/') {
+                page = '/home';
+            }
+            var clickedTab = $('.nav-menu[href="' + page + '"]');
             var currentActiveTab = $(".nav").find(".active");
             var clickedTabName = clickedTab.attr("href");
             var currentActiveTabName = currentActiveTab.attr("href");
@@ -51,7 +59,7 @@
 
         function getContent(page) {
             $.ajax({
-                url: "blocks" + page + ".html",
+                url: page,
                 dataType: "html",
                 success: function(data) {
                     $("#navContent").html(data);
