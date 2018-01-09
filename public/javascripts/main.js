@@ -61,9 +61,23 @@
             $.ajax({
                 url: page,
                 dataType: "html",
+                beforeSend: function () {
+                    $('#navContent').hide();
+                    $('.loader').show();
+                },
+                complete: function() {
+                    setTimeout(function() {
+                        $('.loader').hide();
+                        $('#navContent').show();
+                    }, 1000);
+                },
                 success: function(data) {
-                    $("#navContent").html(data);
-                    history.pushState({}, "", page);
+                    setTimeout(function() {
+                        $("#navContent").html(data);
+                        history.pushState({}, "", page);
+                        $('.loader').hide();
+                        $('#navContent').show();
+                    }, 1000);
                 },
                 error: function() {
                     alert("Failed to get content from page " + page);
