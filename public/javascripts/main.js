@@ -33,7 +33,8 @@
             })
         });
 
-        $(".nav-menu").click(function(event) {
+        // Event delegation
+        $(".nav").on("click", "a", function(event) {
             event.preventDefault();
             var page = $(this).attr("href");
             getContent(page);
@@ -47,7 +48,7 @@
             if (page === '/') {
                 page = '/home';
             }
-            var clickedTab = $('.nav-menu[href="' + page + '"]');
+            var clickedTab = $('.nav a[href="' + page + '"]');
             var currentActiveTab = $(".nav").find(".active");
             var clickedTabName = clickedTab.attr("href");
             var currentActiveTabName = currentActiveTab.attr("href");
