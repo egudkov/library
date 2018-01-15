@@ -1,37 +1,72 @@
 body {
-    padding: 50px;
-    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+    margin: 0;
+    font-family: "Proxima Nova","proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
+    line-height: 1.5;
+    color: #0a0a0a;
 }
 
-a {
-    color: #00B7FF;
+#header {
+    background: #074E68;
+    color: white;
+    padding: 1rem 0 2rem;
+    position: relative;
+    text-align: center;
+}
+
+#header h1 {
+    font-size: 3.5em;
+    font-weight: 500;
+    line-height: 1;
+    font-family: "Proxima Nova","proxima-nova","Helvetica Neue",Helvetica,Arial,sans-serif;
 }
 
 .nav ul {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
     list-style-type: none;
     margin: 0;
     padding: 0;
-    background-color: #333;
-    overflow: hidden;
 }
 
 .nav li {
-    float: left;
+    display: inline-block;
+    float: none;
 }
 
 .nav li a {
     display: block;
     color: white;
+    font-family: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    font-size: 12px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    padding: 0.9rem 1rem 0.75rem;
+    text-transform: uppercase;
     text-decoration: none;
-    padding: 14px 16px;
 }
 
 .nav li a:hover:not(.active) {
-    background-color: #111;
+    background: rgba(255,255,255,0.15);
+    transition: all .25s ease-in-out;
 }
 
 .nav .active {
-    background-color: #4CAF50;
+    background: rgba(255,255,255,0.15);
+}
+
+#navContent {
+    max-width: 50rem;
+    margin-top: 4rem;
+    margin-right: auto;
+    margin-left: auto;
+    color: #767676;
+    font-size: 1.125rem;
+    line-height: 1.6;
+}
+
+p {
+    margin: 0;
 }
 
 #content {
