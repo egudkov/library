@@ -60,21 +60,18 @@
                 dataType: "html",
                 beforeSend: function () {
                     $('#loading').fadeIn(0);
-                    $('.loader').show();
                 },
                 complete: function() {
                     setTimeout(function() {
-                        $('.loader').hide();
                         $('#loading').fadeOut(500);
-                    }, 1000);
+                    }, 500);
                 },
                 success: function(data) {
+                    $("#navContent").html(data);
+                    history.pushState({}, "", page);
                     setTimeout(function() {
-                        $("#navContent").html(data);
-                        history.pushState({}, "", page);
-                        $('.loader').hide();
                         $('#loading').fadeOut(500);
-                    }, 1000);
+                    }, 500);
                 },
                 error: function() {
                     alert("Failed to get content from page " + page);
