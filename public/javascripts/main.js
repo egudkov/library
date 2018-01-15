@@ -49,13 +49,9 @@
                 page = '/home';
             }
             var clickedTab = $('.nav a[href="' + page + '"]');
-            var currentActiveTab = $(".nav").find(".active");
-            var clickedTabName = clickedTab.attr("href");
-            var currentActiveTabName = currentActiveTab.attr("href");
-            if (clickedTabName !== currentActiveTabName) {
-                currentActiveTab.removeClass("active");
-                clickedTab.addClass("active");
-            }
+            var allTabs = $(".nav").find("a");
+            allTabs.removeClass("active");
+            clickedTab.addClass("active");
         }
 
         function getContent(page) {
