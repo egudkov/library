@@ -59,13 +59,13 @@
                 url: page,
                 dataType: "html",
                 beforeSend: function () {
-                    $('#navContent').hide();
+                    $('#loading').fadeIn(0);
                     $('.loader').show();
                 },
                 complete: function() {
                     setTimeout(function() {
                         $('.loader').hide();
-                        $('#navContent').show();
+                        $('#loading').fadeOut(500);
                     }, 1000);
                 },
                 success: function(data) {
@@ -73,7 +73,7 @@
                         $("#navContent").html(data);
                         history.pushState({}, "", page);
                         $('.loader').hide();
-                        $('#navContent').show();
+                        $('#loading').fadeOut(500);
                     }, 1000);
                 },
                 error: function() {
