@@ -41,6 +41,12 @@
             setActiveTab(page);
         });
 
+        // Need to fix back and forward buttons
+        window.addEventListener('popstate', function(event) {
+            getContent(event.state.url);
+            setActiveTab(event.state.url);
+        });
+
         getContent(location.pathname);
         setActiveTab(location.pathname);
 
@@ -68,7 +74,7 @@
                 },
                 success: function(data) {
                     $("#navContent").html(data);
-                    history.pushState({}, "", page);
+                    history.pushState({url: page}, "", page);
                     setTimeout(function() {
                         $('#loading').fadeOut(500);
                     }, 500);
