@@ -5,10 +5,12 @@
     <title>Library</title>
     <link rel="stylesheet" href="stylesheets/style.css">
     <link rel="stylesheet" href="stylesheets/preloader.css">
+    <link rel="stylesheet" href="stylesheets/modal.css">
     <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
     <script src="javascripts/main.js"></script>
 </head>
 <body>
+
     <div id="loading">
         <div id="loading-center">
             <div id="loading-center-absolute">
@@ -16,6 +18,23 @@
             </div>
         </div>
     </div>
+
+    <div id="simpleModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="closeBtn">&times;</span>
+                <h2>Акция!</h2>
+            </div>
+            <div class="modal-body">
+                <p>В новый год - без долгов!</p>
+                <p>Верни все книги до 31 декабря, и получи шоколадку в подарок!</p>
+            </div>
+            <div class="modal-footer">
+                <h3>Количество шоколадок ограничено</h3>
+            </div>
+        </div>
+    </div>
+
     <div id="main">
         <div id="header">
             <h1>Library</h1>

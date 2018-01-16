@@ -84,5 +84,29 @@
                 }
             });
         }
+
+        var modal = document.getElementById('simpleModal');
+        var closeBtn = document.getElementsByClassName('closeBtn')[0];
+
+        // TODO: Check sessionId, run openModal once for user
+        setTimeout(function () {
+            openModal();
+        }, 1000);
+        closeBtn.addEventListener('click', closeModal);
+        window.addEventListener('click', outsideClick);
+
+        function openModal() {
+            modal.style.display = 'block';
+        }
+
+        function closeModal() {
+            modal.style.display = 'none';
+        }
+
+        function outsideClick(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
     })
 })(jQuery);
