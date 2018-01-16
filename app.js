@@ -20,6 +20,10 @@ app.get('/stylesheets/style.css', function(req, res) {
     res.sendFile(__dirname + '/public/stylesheets/style.css');
 });
 
+app.get('/stylesheets/preloader.css', function(req, res) {
+    res.sendFile(__dirname + '/public/stylesheets/preloader.css');
+});
+
 app.get('/blocks/booksRequestForm.html', function(req, res) {
     res.sendFile(__dirname + '/public/blocks/booksRequestForm.html');
 });
