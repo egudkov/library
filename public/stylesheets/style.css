@@ -41,7 +41,7 @@ p {
     display: block;
     color: white;
     font-family: 'Proxima Nova', 'Helvetica Neue', Helvetica, Arial, sans-serif;
-    font-size: 12px;
+    font-size: 1em;
     font-weight: bold;
     letter-spacing: 1px;
     padding: 0.9rem 1rem 0.75rem;
@@ -58,7 +58,7 @@ p {
     background: rgba(255,255,255,0.15);
 }
 
-#navContent {
+#content {
     max-width: 50rem;
     margin-top: 4rem;
     margin-right: auto;
@@ -66,11 +66,6 @@ p {
     color: #767676;
     font-size: 1.125rem;
     line-height: 1.6;
-}
-
-#content {
-    padding: 20px;
-    margin: 20px;
 }
 
 #content input, #content textarea {

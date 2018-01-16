@@ -28,10 +28,6 @@ app.get('/stylesheets/modal.css', function(req, res) {
     res.sendFile(__dirname + '/public/stylesheets/modal.css');
 });
 
-app.get('/blocks/booksRequestForm.html', function(req, res) {
-    res.sendFile(__dirname + '/public/blocks/booksRequestForm.html');
-});
-
 app.get('/', function(req, res) {
     var isAjaxRequest = req.xhr;
     if (isAjaxRequest) {
@@ -77,10 +73,10 @@ app.get('/contacts', function(req, res) {
     }
 });
 
-app.get('/about', function(req, res) {
+app.get('/requestForm', function(req, res) {
     var isAjaxRequest = req.xhr;
     if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/about.html');
+        res.sendFile(__dirname + '/public/blocks/requestForm.html');
     } else {
         res.sendFile(__dirname + '/public/index.html');
     }

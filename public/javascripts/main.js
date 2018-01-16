@@ -1,38 +1,5 @@
 (function($) {
     $(document).ready(function() {
-        $("#askBooksByTheme").click(function() {
-            $.ajax({
-                url: "/blocks/booksRequestForm.html",
-                dataType: "html",
-                success: function(data) {
-                    $("#content").html(data);
-                    $("#booksRequestForm input[type='button']").click(function(){
-                        var formData = {};
-                        $("#booksRequestForm").serializeArray().map(function (x) {
-                            formData[x.name] = x.value;
-                        });
-
-                        $.ajax({
-                            url: "/getResource",
-                            dataType: "json",
-                            type: "post",
-                            data: JSON.stringify(formData),
-                            contentType: "application/json",
-                            success: function (data) {
-                                console.log(data);
-                            },
-                            error: function(xhr) {
-                                console.log(xhr.responseText);
-                            }
-                        })
-                    });
-                },
-                error: function () {
-                    alert("Something is broken");
-                }
-            })
-        });
-
         // Event delegation
         $(".nav").on("click", "a", function(event) {
             event.preventDefault();
@@ -41,7 +8,7 @@
             setActiveTab(page);
         });
 
-        // Need to fix back and forward buttons
+        // TODO: Need to fix back and forward buttons
         window.addEventListener('popstate', function(event) {
             getContent(event.state.url);
             setActiveTab(event.state.url);
@@ -73,16 +40,38 @@
                     }, 500);
                 },
                 success: function(data) {
-                    $("#navContent").html(data);
+                    $("#content").html(data);
                     history.pushState({url: page}, "", page);
                     setTimeout(function() {
                         $('#loading').fadeOut(500);
                     }, 500);
+                    $("#sendForm").click(sendFormData);
                 },
                 error: function() {
                     alert("Failed to get content from page " + page);
                 }
             });
+        }
+
+        function sendFormData() {
+            var formData = {};
+            $("#requestForm").serializeArray().map(function (x) {
+                formData[x.name] = x.value;
+            });
+
+            $.ajax({
+                url: "/getResource",
+                dataType: "json",
+                type: "post",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (data) {
+                    console.log(data);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            })
         }
 
         var modal = document.getElementById('simpleModal');
