@@ -1,28 +1,38 @@
 (function($) {
     $(document).ready(function() {
-        // Event delegation
-        $(".nav").on("click", "a", function(event) {
-            event.preventDefault();
-            var page = $(this).attr("href");
-            getContent(page);
-            setActiveTab(page);
-        });
+        loadPage(location.pathname);
 
+        /***** Navigation *****/
+
+        var nav = $(".nav");
+
+        // Event delegation
+        nav.on("click", "a", navigate);
+
+        /*
         // TODO: Need to fix back and forward buttons
         window.addEventListener('popstate', function(event) {
-            getContent(event.state.url);
-            setActiveTab(event.state.url);
+            loadPage(event.state.url);
         });
+        */
 
-        getContent(location.pathname);
-        setActiveTab(location.pathname);
+        function navigate(event) {
+            event.preventDefault();
+            var page = $(this).attr("href");
+            loadPage(page);
+        }
+
+        function loadPage(page) {
+            getContent(page);
+            setActiveTab(page);
+        }
 
         function setActiveTab(page) {
             if (page === '/') {
                 page = '/home';
             }
             var clickedTab = $('.nav a[href="' + page + '"]');
-            var allTabs = $(".nav").find("a");
+            var allTabs = nav.find("a");
             allTabs.removeClass("active");
             clickedTab.addClass("active");
         }
@@ -102,8 +112,6 @@
                 }
             })
         }
-
-
 
         function subscribe() {
 
