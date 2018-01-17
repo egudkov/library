@@ -46,6 +46,35 @@
                         $('#loading').fadeOut(500);
                     }, 500);
                     $("#sendForm").click(sendFormData);
+                    var email = document.getElementById("emailAddress");
+                    email.addEventListener("input", validateEmail);
+
+                    var form  = document.getElementById('subscribeForm');
+                    form.addEventListener("submit", function (event) {
+                        event.preventDefault();
+                        if (!email.validity.valid) {
+                            console.log("error");
+                        } else {
+                            $.get(
+                                "/subscribe",
+                                {email: email.value},
+                                function () {
+                                    alert("Subscribed! Check email");
+                                }
+                            );
+                        }
+                    });
+
+                    function validateEmail(event) {
+                        if (email.validity.valid) {
+                            console.log("valid");
+                        }
+                        if (email.validity.typeMismatch) {
+                            email.setCustomValidity("Неверный формат email адреса");
+                        } else {
+                            email.setCustomValidity("");
+                        }
+                    }
                 },
                 error: function() {
                     alert("Failed to get content from page " + page);
@@ -72,6 +101,12 @@
                     console.log(xhr.responseText);
                 }
             })
+        }
+
+
+
+        function subscribe() {
+
         }
 
         var modal = document.getElementById('simpleModal');
