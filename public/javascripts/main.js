@@ -1,15 +1,19 @@
 (function($) {
     $(document).ready(function() {
-        var updateUrl = true;
+        var updateUrl = false;
         var page = {
             title: "",
             url: location.pathname
         };
+        if (page.url === '/') {
+            page.url = '/home';
+            page.title = 'Главная';
+        }
+        history.replaceState(page, "", page.url);
 
         var loadingScreen = $("#loading");
         var nav = $(".nav");
         var navTabs = nav.find("a");
-        var activeTab = $('.nav a[href="' + page.url + '"]');
 
         loadPage();
 
@@ -26,19 +30,17 @@
 
         function navigate(event) {
             event.preventDefault();
+            updateUrl = true;
             page.url = $(this).attr("href");
-            loadPage(page.url);
+            loadPage();
         }
 
         function loadPage() {
-            if (page.url === '/') {
-                page.url = '/home';
-            }
-
             setActiveTab();
             getContent();
 
             function setActiveTab() {
+                var activeTab = $('.nav a[href="' + page.url + '"]');
                 page.title = activeTab.html();
                 document.title = page.title;
                 navTabs.removeClass("active");
@@ -56,12 +58,10 @@
                         hideLoading();
                     },
                     success: function(data) {
-                        if (history.state === undefined ||
-                                history.state === null ||
-                                updateUrl && history.state.url !== page.url) {
-                            history.pushState(page, page.title, page.url);
+                        if (updateUrl && history.state.url !== page.url) {
+                            history.pushState(page, "", page.url);
+                            updateUrl = false;
                         }
-                        updateUrl = true;
 
                         $("#content").html(data);
 
