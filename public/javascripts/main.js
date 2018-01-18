@@ -1,10 +1,17 @@
 (function($) {
     $(document).ready(function() {
-        var loadingScreen = $('#loading');
-        var nav = $(".nav");
         var updateUrl = true;
+        var page = {
+            title: "",
+            url: location.pathname
+        };
 
-        loadPage(location.pathname);
+        var loadingScreen = $("#loading");
+        var nav = $(".nav");
+        var navTabs = nav.find("a");
+        var activeTab = $('.nav a[href="' + page.url + '"]');
+
+        loadPage();
 
         /***** Navigation *****/
 
@@ -13,90 +20,102 @@
 
         window.addEventListener('popstate', function(event) {
             updateUrl = false;
-            loadPage(event.state.url);
+            page.url = event.state.url;
+            loadPage();
         });
 
         function navigate(event) {
             event.preventDefault();
-            var page = $(this).attr("href");
-            loadPage(page);
+            page.url = $(this).attr("href");
+            loadPage(page.url);
         }
 
-        function loadPage(page) {
-            getContent(page);
-            setActiveTab(page);
-        }
-
-        function setActiveTab(page) {
-            if (page === '/') {
-                page = '/home';
+        function loadPage() {
+            if (page.url === '/') {
+                page.url = '/home';
             }
-            var clickedTab = $('.nav a[href="' + page + '"]');
-            var allTabs = nav.find("a");
-            allTabs.removeClass("active");
-            clickedTab.addClass("active");
+
+            setActiveTab();
+            getContent();
+
+            function setActiveTab() {
+                page.title = activeTab.html();
+                document.title = page.title;
+                navTabs.removeClass("active");
+                activeTab.addClass("active");
+            }
+
+            function getContent() {
+                $.ajax({
+                    url: page.url,
+                    dataType: "html",
+                    beforeSend: function () {
+                        showLoading();
+                    },
+                    complete: function() {
+                        hideLoading();
+                    },
+                    success: function(data) {
+                        if (history.state === undefined ||
+                                history.state === null ||
+                                updateUrl && history.state.url !== page.url) {
+                            history.pushState(page, page.title, page.url);
+                        }
+                        updateUrl = true;
+
+                        $("#content").html(data);
+
+                        hideLoading();
+                    },
+                    error: function() {
+                        alert("Failed to get content from page " + page.url);
+                    }
+                });
+            }
         }
 
-        function getContent(page) {
-            $.ajax({
-                url: page,
-                dataType: "html",
-                beforeSend: function () {
-                    loadingScreen.fadeIn(0);
-                },
-                complete: function() {
-                    setTimeout(function() {
-                        loadingScreen.fadeOut(500);
-                    }, 500);
-                },
-                success: function(data) {
-                    document.title = page.substr(1);
-                    if (history.state === undefined || history.state === null || (updateUrl && history.state.url !== page)) {
-                        history.pushState({url: page}, "title", page);
-                    }
-                    updateUrl = true;
-                    $("#content").html(data);
-
-                    setTimeout(function() {
-                        loadingScreen.fadeOut(500);
-                    }, 500);
-
-                    $("#sendForm").click(sendFormData);
-                    var email = document.getElementById("emailAddress");
-                    email.addEventListener("input", validateEmail);
-
-                    var form  = document.getElementById('subscribeForm');
-                    form.addEventListener("submit", function (event) {
-                        event.preventDefault();
-                        if (!email.validity.valid) {
-                            console.log("error");
-                        } else {
-                            $.get(
-                                "/subscribe",
-                                {email: email.value},
-                                function () {
-                                    alert("Subscribed! Check email");
-                                }
-                            );
-                        }
-                    });
-
-                    function validateEmail(event) {
-                        if (email.validity.valid) {
-                            console.log("valid");
-                        }
-                        if (email.validity.typeMismatch) {
-                            email.setCustomValidity("Неверный формат email адреса");
-                        } else {
-                            email.setCustomValidity("");
-                        }
-                    }
-                },
-                error: function() {
-                    alert("Failed to get content from page " + page);
-                }
-            });
+        function showLoading() {
+            loadingScreen.fadeIn(0);
         }
+
+        function hideLoading() {
+            setTimeout(function() {
+                loadingScreen.fadeOut(500);
+            }, 500);
+        }
+
+        // From getContent()
+        //
+        // $("#sendForm").click(sendFormData);
+        // var email = document.getElementById("emailAddress");
+        // email.addEventListener("input", validateEmail);
+        //
+        // var form  = document.getElementById('subscribeForm');
+        // form.addEventListener("submit", function (event) {
+        //     event.preventDefault();
+        //     if (!email.validity.valid) {
+        //         console.log("error");
+        //     } else {
+        //         $.get(
+        //             "/subscribe",
+        //             {email: email.value},
+        //             function () {
+        //                 alert("Subscribed! Check email");
+        //             }
+        //         );
+        //     }
+        // });
+
+        // function validateEmail(event) {
+        //     if (email.validity.valid) {
+        //         console.log("valid");
+        //     }
+        //     if (email.validity.typeMismatch) {
+        //         email.setCustomValidity("Неверный формат email адреса");
+        //     } else {
+        //         email.setCustomValidity("");
+        //     }
+        // }
 
         function sendFormData() {
             var formData = {};
