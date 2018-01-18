@@ -1,20 +1,20 @@
 (function($) {
     $(document).ready(function() {
+        var loadingScreen = $('#loading');
+        var nav = $(".nav");
+        var updateUrl = true;
+
         loadPage(location.pathname);
 
         /***** Navigation *****/
 
-        var nav = $(".nav");
-
         // Event delegation
         nav.on("click", "a", navigate);
 
-        /*
-        // TODO: Need to fix back and forward buttons
         window.addEventListener('popstate', function(event) {
+            updateUrl = false;
             loadPage(event.state.url);
         });
-        */
 
         function navigate(event) {
             event.preventDefault();
@@ -42,19 +42,25 @@
                 url: page,
                 dataType: "html",
                 beforeSend: function () {
-                    $('#loading').fadeIn(0);
+                    loadingScreen.fadeIn(0);
                 },
                 complete: function() {
                     setTimeout(function() {
-                        $('#loading').fadeOut(500);
+                        loadingScreen.fadeOut(500);
                     }, 500);
                 },
                 success: function(data) {
+                    document.title = page.substr(1);
+                    if (updateUrl && history.state.url !== page) {
+                        history.pushState({url: page}, "title", page);
+                    }
+                    updateUrl = true;
                     $("#content").html(data);
-                    history.pushState({url: page}, "", page);
+
                     setTimeout(function() {
-                        $('#loading').fadeOut(500);
+                        loadingScreen.fadeOut(500);
                     }, 500);
+
                     $("#sendForm").click(sendFormData);
                     var email = document.getElementById("emailAddress");
                     email.addEventListener("input", validateEmail);
@@ -116,6 +122,8 @@
         function subscribe() {
 
         }
+
+        /***** Modal window *****/
 
         var modal = document.getElementById('simpleModal');
         var closeBtn = document.getElementsByClassName('closeBtn')[0];
