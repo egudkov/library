@@ -51,7 +51,7 @@
                 },
                 success: function(data) {
                     document.title = page.substr(1);
-                    if (updateUrl && history.state.url !== page) {
+                    if (history.state === undefined || history.state === null || (updateUrl && history.state.url !== page)) {
                         history.pushState({url: page}, "title", page);
                     }
                     updateUrl = true;
