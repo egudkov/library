@@ -51,6 +51,7 @@
                 $.ajax({
                     url: page.url,
                     dataType: "html",
+                    cache: false,
                     beforeSend: function () {
                         showLoading();
                     },
