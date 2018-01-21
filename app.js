@@ -53,7 +53,7 @@ app.get('/subscribe', function(req, res) {
     console.log("subscribed");
 });
 
-app.post('/getResource', function(req, res) {
+app.post('/sendForm', function(req, res) {
     console.log("Your request: " + req.body.toString());
     res.setHeader('Content-Type', 'application/json');
     var date = new Date;

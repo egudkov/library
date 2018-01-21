@@ -105,7 +105,7 @@
             });
 
             $.ajax({
-                url: "/getResource",
+                url: "/sendForm",
                 dataType: "json",
                 type: "post",
                 data: JSON.stringify(formData),
