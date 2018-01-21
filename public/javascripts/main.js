@@ -75,6 +75,8 @@
 
                     if (page.url === "/requestForm") {
                         $("#askQuestionForm").submit(sendFormData);
+                    } else if (page.url === "/news") {
+                        $('#subscribeForm').submit(subscribe);
                     }
                 },
                 error: function() {
@@ -93,7 +95,7 @@
             }, 300);
         }
 
-        /***** Form *****/
+        /***** Forms *****/
 
         function sendFormData() {
             event.preventDefault();
@@ -124,46 +126,36 @@
                 error: function(xhr) {
                     console.log(xhr.responseText);
                 }
-            })
+            });
         }
 
-        // From getContent()
-        //
-        //
-        // var email = document.getElementById("emailAddress");
-        // email.addEventListener("input", validateEmail);
-        //
-        // var form  = document.getElementById('subscribeForm');
-        // form.addEventListener("submit", function (event) {
-        //     event.preventDefault();
-        //     if (!email.validity.valid) {
-        //         console.log("error");
-        //     } else {
-        //         $.get(
-        //             "/subscribe",
-        //             {email: email.value},
-        //             function () {
-        //                 alert("Subscribed! Check email");
-        //             }
-        //         );
-        //     }
-        // });
-
-        // function validateEmail(event) {
-        //     if (email.validity.valid) {
-        //         console.log("valid");
-        //     }
-        //     if (email.validity.typeMismatch) {
-        //         email.setCustomValidity("Неверный формат email адреса");
-        //     } else {
-        //         email.setCustomValidity("");
-        //     }
-        // }
-
-
-
         function subscribe() {
+            event.preventDefault();
 
+            var form = $('#subscribeForm');
+            var formData = {};
+            form.serializeArray().map(function (field) {
+                formData[field.name] = field.value;
+            });
+
+            $.ajax({
+                url: "/subscribe",
+                dataType: "json",
+                type: "post",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (responseData) {
+                    var responseBlock = $("<div>");
+                    var thankYouBlock = $("<div>");
+                    thankYouBlock.text("На ваш почтовый ящик отправлено письмо. " +
+                        "Перейдите по ссылке в письме, чтобы подтвердить подписку.");
+                    responseBlock.append(thankYouBlock);
+                    form.html(responseBlock);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
         }
 
         /***** Modal window *****/
