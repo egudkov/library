@@ -156,14 +156,20 @@
         var closeBtn = $('.closeBtn');
 
         // TODO: Check sessionId, run openModal once for user
-        setTimeout(function () {
-            openModal();
-        }, 1000);
+        if (document.cookie.match("adShown=yes") === null) {
+            setTimeout(function () {
+                openModal();
+            }, 1000);
+        }
+
         closeBtn.click(closeModal);
         $(window).click(outsideClick);
 
         function openModal() {
             modal.show();
+            var date = new Date;
+            date.setMonth(date.getMonth() + 1);
+            document.cookie = "adShown=yes; path=/; expires=" + date.toUTCString();
         }
 
         function closeModal() {
