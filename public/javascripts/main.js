@@ -1,14 +1,17 @@
 (function($) {
     $(document).ready(function() {
-        var updateUrl = false;
+        // We shouldn't push state on initial page load
+        var shouldPushState = false;
         var page = {
             title: "",
             url: location.pathname
         };
+        
         if (page.url === '/') {
             page.url = '/home';
             page.title = 'Главная';
         }
+        // Attaching state to the page
         history.replaceState(page, "", page.url);
 
         var loadingScreen = $("#loading");
@@ -19,22 +22,26 @@
 
         /***** Navigation *****/
 
-        // Event delegation
+        // Event delegation from "nav" div to "a" elements
+        // Works only with "on" method
         nav.on("click", "a", navigate);
-
-        window.addEventListener('popstate', function(event) {
-            updateUrl = false;
-            page.url = event.state.url;
-            loadPage();
-        });
 
         function navigate(event) {
             event.preventDefault();
-            updateUrl = true;
+            // We should push state on navigation click
+            shouldPushState = true;
             page.url = $(this).attr("href");
             loadPage();
         }
-
+        
+        // Handling of going back/forward through history
+        window.addEventListener('popstate', function(event) {
+            // We shouldn't push state while going back/forward
+            shouldPushState = false;
+            page.url = event.state.url;
+            loadPage();
+        });
+        
         function loadPage() {
             setActiveTab();
             getContent();
@@ -59,9 +66,9 @@
                         hideLoading();
                     },
                     success: function(data) {
-                        if (updateUrl && history.state.url !== page.url) {
+                        if (shouldPushState && history.state.url !== page.url) {
                             history.pushState(page, "", page.url);
-                            updateUrl = false;
+                            shouldPushState = false;
                         }
 
                         $("#content").html(data);
@@ -145,27 +152,27 @@
 
         /***** Modal window *****/
 
-        var modal = document.getElementById('simpleModal');
-        var closeBtn = document.getElementsByClassName('closeBtn')[0];
+        var modal = $('#simpleModal');
+        var closeBtn = $('.closeBtn');
 
         // TODO: Check sessionId, run openModal once for user
         setTimeout(function () {
             openModal();
         }, 1000);
-        closeBtn.addEventListener('click', closeModal);
-        window.addEventListener('click', outsideClick);
+        closeBtn.click(closeModal);
+        $(window).click(outsideClick);
 
         function openModal() {
-            modal.style.display = 'block';
+            modal.show();
         }
 
         function closeModal() {
-            modal.style.display = 'none';
+            modal.hide();
         }
 
-        function outsideClick(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
+        function outsideClick(event) {
+            if (event.target.id === 'simpleModal') {
+                closeModal();
             }
         }
     })
