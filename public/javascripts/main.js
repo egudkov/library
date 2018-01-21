@@ -113,7 +113,6 @@
                 data: JSON.stringify(formData),
                 contentType: "application/json",
                 success: function (responseData) {
-                    form.hide();
                     var responseBlock = $("<div>");
                     var thankYouBlock = $("<div>");
                     thankYouBlock.text("Ваш вопрос успешно отправлен! Мы ответим в ближайшее время.");
@@ -121,7 +120,7 @@
                     requestDetailsBlock.html("Вопрос номер: " + responseData.id + "<br>" + "Дата: " + responseData.date);
                     responseBlock.append(thankYouBlock);
                     responseBlock.append(requestDetailsBlock);
-                    $("#content").append(responseBlock);
+                    form.html(responseBlock);
                 },
                 error: function(xhr) {
                     console.log(xhr.responseText);
