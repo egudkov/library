@@ -62,71 +62,36 @@ app.get('/javascripts/main.js', function(req, res) {
     res.sendFile(__dirname + '/public/javascripts/main.js');
 });
 
-app.get('/stylesheets/style.css', function(req, res) {
-    res.sendFile(__dirname + '/public/stylesheets/style.css');
+
+var cssFiles = ['main.css', 'preloader.css', 'modal.css'];
+
+cssFiles.forEach(function (cssFile) {
+    app.get('/stylesheets/' + cssFile, function(req, res) {
+        res.sendFile(__dirname + '/public/stylesheets/' + cssFile);
+    });
 });
 
-app.get('/stylesheets/preloader.css', function(req, res) {
-    res.sendFile(__dirname + '/public/stylesheets/preloader.css');
+
+var navPages = [
+    {url: '/', fname: 'home.html'},
+    {url: '/home', fname: 'home.html'},
+    {url: '/news', fname: 'news.html'},
+    {url: '/catalog', fname: 'catalog.html'},
+    {url: '/contacts', fname: 'contacts.html'},
+    {url: '/requestForm', fname: 'requestForm.html'}
+];
+
+navPages.forEach(function(page) {
+    app.get(page.url, function(req, res) {
+        var isAjaxRequest = req.xhr;
+        if (isAjaxRequest) {
+            res.sendFile(__dirname + '/public/blocks/' + page.fname);
+        } else {
+            res.sendFile(__dirname + '/public/index.html');
+        }
+    });
 });
 
-app.get('/stylesheets/modal.css', function(req, res) {
-    res.sendFile(__dirname + '/public/stylesheets/modal.css');
-});
-
-app.get('/', function(req, res) {
-    var isAjaxRequest = req.xhr;
-    if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/home.html');
-    } else {
-        res.sendFile(__dirname + '/public/index.html');
-    }
-});
-
-app.get('/home', function(req, res) {
-    var isAjaxRequest = req.xhr;
-    if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/home.html');
-    } else {
-        res.sendFile(__dirname + '/public/index.html');
-    }
-});
-
-app.get('/news', function(req, res) {
-    var isAjaxRequest = req.xhr;
-    if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/news.html');
-    } else {
-        res.sendFile(__dirname + '/public/index.html');
-    }
-});
-
-app.get('/catalog', function(req, res) {
-    var isAjaxRequest = req.xhr;
-    if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/catalog.html');
-    } else {
-        res.sendFile(__dirname + '/public/index.html');
-    }
-});
-
-app.get('/contacts', function(req, res) {
-    var isAjaxRequest = req.xhr;
-    if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/contacts.html');
-    } else {
-        res.sendFile(__dirname + '/public/index.html');
-    }
-});
-
-app.get('/requestForm', function(req, res) {
-    var isAjaxRequest = req.xhr;
-    if (isAjaxRequest) {
-        res.sendFile(__dirname + '/public/blocks/requestForm.html');
-    } else {
-        res.sendFile(__dirname + '/public/index.html');
-    }
-});
 
 app.listen(process.env.PORT || 3000, function () {
     console.log("Express server listening on port %d in %s mode", this.address().port, app.settings.env);
