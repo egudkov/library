@@ -1,12 +1,12 @@
-<form id="requestForm">
+<form id="askQuestionForm">
     <div>
-        <input name="name" placeholder="Имя"/>
+        <input name="name" placeholder="Имя" autofocus/>
     </div>
     <div>
-        <input name="email" placeholder="Email"/>
+        <input name="email" type="email" placeholder="anna@mail.com" required/>
     </div>
     <div>
-        <textarea name="question" placeholder="О чём вы хотите спросить?"></textarea>
+        <textarea name="question" placeholder="О чём вы хотите спросить?" required></textarea>
     </div>
-    <input id="sendForm" type="button" value="Отправить">
+    <input id="sendForm" type="submit" value="Отправить">
 </form>

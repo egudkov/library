@@ -2,6 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 const nodemailer = require('nodemailer');
 var app = express();
+var latestQuestionId = 37;
 
 /* Not working
 
@@ -55,8 +56,13 @@ app.get('/subscribe', function(req, res) {
 app.post('/getResource', function(req, res) {
     console.log("Your request: " + req.body.toString());
     res.setHeader('Content-Type', 'application/json');
-    res.send(JSON.stringify({name: 'Evgeny', lastname: 'Gudkov'}));
+    var date = new Date;
+    res.send({
+        id: ++latestQuestionId,
+        date: date.toUTCString()
+    });
 });
+
 
 app.get('/javascripts/main.js', function(req, res) {
     res.sendFile(__dirname + '/public/javascripts/main.js');

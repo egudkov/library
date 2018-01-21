@@ -24,15 +24,13 @@
 
         // Event delegation from "nav" div to "a" elements
         // Works only with "on" method
-        nav.on("click", "a", navigate);
-
-        function navigate(event) {
+        nav.on("click", "a", function (event) {
             event.preventDefault();
             // We should push state on navigation click
             shouldPushState = true;
             page.url = $(this).attr("href");
             loadPage();
-        }
+        });
         
         // Handling of going back/forward through history
         window.addEventListener('popstate', function(event) {
@@ -45,41 +43,44 @@
         function loadPage() {
             setActiveTab();
             getContent();
+        }
 
-            function setActiveTab() {
-                var activeTab = $('.nav a[href="' + page.url + '"]');
-                page.title = activeTab.html();
-                document.title = page.title;
-                navTabs.removeClass("active");
-                activeTab.addClass("active");
-            }
+        function setActiveTab() {
+            var activeTab = $('.nav a[href="' + page.url + '"]');
+            page.title = activeTab.html();
+            document.title = page.title;
+            navTabs.removeClass("active");
+            activeTab.addClass("active");
+        }
 
-            function getContent() {
-                $.ajax({
-                    url: page.url,
-                    dataType: "html",
-                    cache: false,
-                    beforeSend: function () {
-                        showLoading();
-                    },
-                    complete: function() {
-                        hideLoading();
-                    },
-                    success: function(data) {
-                        if (shouldPushState && history.state.url !== page.url) {
-                            history.pushState(page, "", page.url);
-                            shouldPushState = false;
-                        }
-
-                        $("#content").html(data);
-
-                        hideLoading();
-                    },
-                    error: function() {
-                        alert("Failed to get content from page " + page.url);
+        function getContent() {
+            $.ajax({
+                url: page.url,
+                dataType: "html",
+                cache: false,
+                beforeSend: function () {
+                    showLoading();
+                },
+                complete: function() {
+                    hideLoading();
+                },
+                success: function(data) {
+                    if (shouldPushState && history.state.url !== page.url) {
+                        history.pushState(page, "", page.url);
+                        shouldPushState = false;
                     }
-                });
-            }
+
+                    $("#content").html(data);
+                    hideLoading();
+
+                    if (page.url === "/requestForm") {
+                        $("#askQuestionForm").submit(sendFormData);
+                    }
+                },
+                error: function() {
+                    alert("Failed to get content from page " + page.url);
+                }
+            });
         }
 
         function showLoading() {
@@ -88,13 +89,47 @@
 
         function hideLoading() {
             setTimeout(function() {
-                loadingScreen.fadeOut(500);
-            }, 500);
+                loadingScreen.fadeOut(300);
+            }, 300);
+        }
+
+        /***** Form *****/
+
+        function sendFormData() {
+            event.preventDefault();
+
+            var form = $("#askQuestionForm");
+            var formData = {};
+            form.serializeArray().map(function (field) {
+                formData[field.name] = field.value;
+            });
+
+            $.ajax({
+                url: "/getResource",
+                dataType: "json",
+                type: "post",
+                data: JSON.stringify(formData),
+                contentType: "application/json",
+                success: function (responseData) {
+                    form.hide();
+                    var responseBlock = $("<div>");
+                    var thankYouBlock = $("<div>");
+                    thankYouBlock.text("Ваш вопрос успешно отправлен! Мы ответим в ближайшее время.");
+                    var requestDetailsBlock = $("<div>");
+                    requestDetailsBlock.html("Вопрос номер: " + responseData.id + "<br>" + "Дата: " + responseData.date);
+                    responseBlock.append(thankYouBlock);
+                    responseBlock.append(requestDetailsBlock);
+                    $("#content").append(responseBlock);
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            })
         }
 
         // From getContent()
         //
-        // $("#sendForm").click(sendFormData);
+        //
         // var email = document.getElementById("emailAddress");
         // email.addEventListener("input", validateEmail);
         //
@@ -125,26 +160,7 @@
         //     }
         // }
 
-        function sendFormData() {
-            var formData = {};
-            $("#requestForm").serializeArray().map(function (x) {
-                formData[x.name] = x.value;
-            });
 
-            $.ajax({
-                url: "/getResource",
-                dataType: "json",
-                type: "post",
-                data: JSON.stringify(formData),
-                contentType: "application/json",
-                success: function (data) {
-                    console.log(data);
-                },
-                error: function(xhr) {
-                    console.log(xhr.responseText);
-                }
-            })
-        }
 
         function subscribe() {
 
