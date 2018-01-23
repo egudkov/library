@@ -27,7 +27,7 @@ app.post('/subscribe', function(req, res) {
         secure: false,
         port: 25,
         auth: {
-            user: 'gudkoveyu@gmail.com',
+            user: 'alice@example.com',
             pass: 'secret'
         },
         tls: {
@@ -36,7 +36,7 @@ app.post('/subscribe', function(req, res) {
     });
 
     var mailOptions = {
-        from: '"Fred Foo" <gudkoveyu@gmail.com>',
+        from: '"Fred Foo" <alice@example.com>',
         to: toEmail,
         subject: 'Hello',
         text: 'Hello world'
